@@ -26,6 +26,14 @@
     },
     "experiments": {
       "tsconfigPaths": true
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "The app needs access to your camera in order to rake picture of your favorite places."
+        }
+      ]
+    ]
   }
 }

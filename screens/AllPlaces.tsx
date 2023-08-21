@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
+import { PlacesList } from '../components/Places/PlacesList';
 
 export const AllPlaces = () => {
-  <Text></Text>;
+  return <PlacesList places={[]} />;
 };
