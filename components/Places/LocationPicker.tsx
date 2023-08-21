@@ -8,6 +8,7 @@ import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../utils/colors';
 import { OutlinedButton } from '../ui/OutlinedButton';
 import { getLocationPreview } from '../../utils/map';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 type LocationType = {
   coords: {
@@ -16,7 +17,13 @@ type LocationType = {
   };
 };
 
+type RootStackParamList = {
+  Map: undefined;
+};
+
 export const LocationPicker = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const [pickedLocation, setPickedLocation] = useState<LocationType | null>(
     null
   );
@@ -56,7 +63,9 @@ export const LocationPicker = () => {
     setPickedLocation(pickedLocation);
   }
 
-  async function pickOnMapHandler() {}
+  async function pickOnMapHandler() {
+    navigation.navigate('Map');
+  }
 
   let LocationPreview = <Text>No location yet</Text>;
 
