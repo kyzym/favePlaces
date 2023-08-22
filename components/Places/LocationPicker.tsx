@@ -1,46 +1,56 @@
 import {
+  NavigationProp,
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {
   PermissionStatus,
   getCurrentPositionAsync,
   useForegroundPermissions,
 } from 'expo-location';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
+import { LatLng } from 'react-native-maps';
+import { PickedLocation, RootStackParamList } from '../../types/types';
 import { Colors } from '../../utils/colors';
-import { OutlinedButton } from '../ui/OutlinedButton';
 import { getLocationPreview } from '../../utils/map';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-
-type LocationType = {
-  coords: {
-    latitude: number;
-    longitude: number;
-  };
-};
-
-type RootStackParamList = {
-  Map: undefined;
-};
+import { OutlinedButton } from '../ui/OutlinedButton';
 
 export const LocationPicker = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList, 'Map'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'Map'>>();
 
-  const [pickedLocation, setPickedLocation] = useState<LocationType | null>(
+  const [pickedLocation, setPickedLocation] = useState<PickedLocation | null>(
     null
   );
+  const isFocused = useIsFocused();
 
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation: LatLng = {
+        latitude: route.params.selectedLocation!.latitude,
+        longitude: route.params.selectedLocation!.longitude,
+      };
+
+      setPickedLocation({ coords: mapPickedLocation });
+    }
+  }, [route, isFocused]);
+
   async function verifyPermissions() {
     if (
-      locationPermissionInformation!.status === PermissionStatus.UNDETERMINED
+      locationPermissionInformation?.status === PermissionStatus.UNDETERMINED
     ) {
       const permissionResponse = await requestPermission();
 
       return permissionResponse.granted;
     }
 
-    if (locationPermissionInformation!.status === PermissionStatus.DENIED) {
+    if (locationPermissionInformation?.status === PermissionStatus.DENIED) {
       Alert.alert(
         'Insufficient Permissions!',
         'You need to grant location permissions to use this feature.'
@@ -64,7 +74,14 @@ export const LocationPicker = () => {
   }
 
   async function pickOnMapHandler() {
-    navigation.navigate('Map');
+    const hasPermissions = await verifyPermissions();
+    if (!hasPermissions) {
+      return;
+    }
+
+    const location = await getCurrentPositionAsync({});
+
+    navigation.navigate('Map', { selectedLocation: location.coords });
   }
 
   let LocationPreview = <Text>No location yet</Text>;

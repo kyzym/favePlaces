@@ -4,10 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import IconButton from './components/ui/IconButton';
 import { AddPlace } from './screens/AddPlace';
 import { AllPlaces } from './screens/AllPlaces';
-import { Colors } from './utils/colors';
 import { Map } from './screens/Map';
+import { RootStackParamList } from './types/types';
+import { Colors } from './utils/colors';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -40,11 +41,7 @@ export default function App() {
             component={AddPlace}
             options={{ title: 'Add a new Place' }}
           />
-          <Stack.Screen
-            name="Map"
-            component={Map}
-            options={{ title: 'Some things on the map' }}
-          />
+          <Stack.Screen name="Map" component={Map} options={{ title: 'Map' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
