@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     height: '35%',
     minHeight: 300,
     width: '100%',
-    resizeMode: 'center',
   },
   locationContainer: {
     justifyContent: 'center',
