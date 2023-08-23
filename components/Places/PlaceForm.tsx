@@ -1,14 +1,14 @@
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useState, useCallback } from 'react';
+import { Location } from '../../types/types';
 import { Colors } from '../../utils/colors';
+import { Button } from '../ui/Button';
 import { ImagePicker } from './ImagePicker';
 import { LocationPicker } from './LocationPicker';
-import { Button } from '../ui/Button';
-import { LatLng } from 'react-native-maps';
 
 export const PlaceForm = () => {
   const [enteredTitle, setEnteredTitle] = useState('');
-  const [pickedLocation, setPickedLocation] = useState<LatLng | null>(null);
+  const [pickedLocation, setPickedLocation] = useState<Location | null>(null);
   const [selectedImage, setSelectedImage] = useState('');
 
   function changeTitleHandler(enteredText: string) {
@@ -19,7 +19,7 @@ export const PlaceForm = () => {
     setSelectedImage(imageUri);
   }
 
-  const pickLocationHandler = useCallback((location: LatLng) => {
+  const pickLocationHandler = useCallback((location: Location) => {
     setPickedLocation(location);
   }, []);
 

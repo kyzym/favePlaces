@@ -1,5 +1,3 @@
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LatLng } from 'react-native-maps';
 
 export interface Place {
@@ -16,11 +14,10 @@ export type RootStackParamList = {
   Map: LatLng;
 };
 
-export type MapProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Map'>;
-  route: RouteProp<RootStackParamList, 'Map'>;
-};
-
 export type PickedLocation = {
   coords: LatLng;
+};
+
+export type Location = LatLng & {
+  address: string;
 };

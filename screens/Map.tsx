@@ -7,14 +7,21 @@ import MapView, {
   Region,
 } from 'react-native-maps';
 import IconButton from '../components/ui/IconButton';
-import { MapProps } from '../types/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/types';
+import { RouteProp } from '@react-navigation/native';
+
+type MapProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Map'>;
+  route: RouteProp<RootStackParamList, 'Map'>;
+};
 
 export const Map = ({ navigation, route }: MapProps) => {
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
 
   const region: Region = {
-    latitude: route.params?.latitude || 37.9,
-    longitude: route.params?.longitude || 19.4967166,
+    latitude: route.params?.latitude || 40.442,
+    longitude: route.params?.longitude || 19.496,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };

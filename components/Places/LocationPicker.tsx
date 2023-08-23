@@ -6,7 +6,6 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {
-  LocationObject,
   PermissionStatus,
   getCurrentPositionAsync,
   useForegroundPermissions,
@@ -14,13 +13,17 @@ import {
 import { useEffect, useState } from 'react';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { LatLng } from 'react-native-maps';
-import { PickedLocation, RootStackParamList } from '../../types/types';
+import {
+  Location,
+  PickedLocation,
+  RootStackParamList,
+} from '../../types/types';
 import { Colors } from '../../utils/colors';
-import { getLocationPreview } from '../../utils/map';
+import { getAddress, getLocationPreview } from '../../utils/location';
 import { OutlinedButton } from '../ui/OutlinedButton';
 
 type LocationPickerProps = {
-  onPickLocation: (location: LatLng) => void;
+  onPickLocation: (location: Location) => void;
 };
 
 export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
@@ -30,6 +33,7 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   const [pickedLocation, setPickedLocation] = useState<PickedLocation | null>(
     null
   );
+
   const isFocused = useIsFocused();
 
   const [locationPermissionInformation, requestPermission] =
@@ -47,12 +51,23 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   }, [route, isFocused]);
 
   useEffect(() => {
-    if (pickedLocation) {
-      onPickLocation({
-        latitude: pickedLocation.coords.latitude,
-        longitude: pickedLocation.coords.longitude,
-      });
+    async function handleLocation() {
+      if (pickedLocation) {
+        const latitude = pickedLocation.coords.latitude;
+        const longitude = pickedLocation.coords.longitude;
+
+        const address = await getAddress(latitude, longitude);
+
+        const location: Location = {
+          latitude,
+          longitude,
+          address,
+        };
+
+        onPickLocation(location);
+      }
     }
+    handleLocation();
   }, [pickedLocation, onPickLocation]);
 
   async function verifyPermissions() {

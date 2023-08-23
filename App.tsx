@@ -39,7 +39,7 @@ export default function App() {
           <Stack.Screen
             name="AddPlace"
             component={AddPlace}
-            options={{ title: 'Add a new Place' }}
+            options={{ title: 'Add your favorite Place' }}
           />
           <Stack.Screen name="Map" component={Map} options={{ title: 'Map' }} />
         </Stack.Navigator>
