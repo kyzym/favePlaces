@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
 
-    width: '100%',
     paddingVertical: 8,
     paddingHorizontal: 16,
 

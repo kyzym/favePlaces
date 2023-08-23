@@ -12,6 +12,7 @@ export type RootStackParamList = {
   AllPlaces: Place[];
   AddPlace: LatLng;
   Map: LatLng;
+  PlaceDetails: { placeId: string };
 };
 
 export type PickedLocation = {

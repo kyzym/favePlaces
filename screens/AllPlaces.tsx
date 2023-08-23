@@ -20,11 +20,6 @@ export const AllPlaces = ({ route }: AllPlacesProps) => {
 
     if (isFocused) {
       loadPlaces();
-      // setLoadedPlaces((currentPlaces) => [
-      //   ...currentPlaces,
-      //   route.params.place,
-      // ]
-      // );
     }
   }, [isFocused]);
 

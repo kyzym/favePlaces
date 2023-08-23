@@ -10,6 +10,7 @@ import { Colors } from './utils/colors';
 import { useCallback, useEffect, useState } from 'react';
 import { init } from './utils/db';
 import * as SplashScreen from 'expo-splash-screen';
+import { PlaceDetails } from './screens/PlaceDetails';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -70,6 +71,11 @@ export default function App() {
             options={{ title: 'Add your favorite Place' }}
           />
           <Stack.Screen name="Map" component={Map} options={{ title: 'Map' }} />
+          <Stack.Screen
+            name="PlaceDetails"
+            component={PlaceDetails}
+            options={{ title: 'Loading Place...' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
