@@ -12,17 +12,13 @@ export interface Place {
 
 export type RootStackParamList = {
   AllPlaces: undefined;
-  AddPlace: { selectedLocation: LatLng };
-  Map: MapParams;
+  AddPlace: LatLng;
+  Map: LatLng;
 };
 
 export type MapProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Map'>;
   route: RouteProp<RootStackParamList, 'Map'>;
-};
-
-type MapParams = {
-  selectedLocation?: LatLng;
 };
 
 export type PickedLocation = {

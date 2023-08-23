@@ -13,8 +13,8 @@ export const Map = ({ navigation, route }: MapProps) => {
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
 
   const region: Region = {
-    latitude: route.params.selectedLocation?.latitude || 37.9,
-    longitude: route.params.selectedLocation?.longitude || 19.4967166,
+    latitude: route.params?.latitude || 37.9,
+    longitude: route.params?.longitude || 19.4967166,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
@@ -35,7 +35,10 @@ export const Map = ({ navigation, route }: MapProps) => {
       return;
     }
 
-    navigation.navigate('AddPlace', { selectedLocation });
+    navigation.navigate('AddPlace', {
+      latitude: selectedLocation.latitude,
+      longitude: selectedLocation.longitude,
+    });
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {

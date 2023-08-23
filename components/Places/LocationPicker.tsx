@@ -6,6 +6,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {
+  LocationObject,
   PermissionStatus,
   getCurrentPositionAsync,
   useForegroundPermissions,
@@ -18,7 +19,11 @@ import { Colors } from '../../utils/colors';
 import { getLocationPreview } from '../../utils/map';
 import { OutlinedButton } from '../ui/OutlinedButton';
 
-export const LocationPicker = () => {
+type LocationPickerProps = {
+  onPickLocation: (location: LatLng) => void;
+};
+
+export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList, 'Map'>>();
   const route = useRoute<RouteProp<RootStackParamList, 'Map'>>();
 
@@ -33,13 +38,22 @@ export const LocationPicker = () => {
   useEffect(() => {
     if (isFocused && route.params) {
       const mapPickedLocation: LatLng = {
-        latitude: route.params.selectedLocation!.latitude,
-        longitude: route.params.selectedLocation!.longitude,
+        latitude: route.params.latitude,
+        longitude: route.params.longitude,
       };
 
       setPickedLocation({ coords: mapPickedLocation });
     }
   }, [route, isFocused]);
+
+  useEffect(() => {
+    if (pickedLocation) {
+      onPickLocation({
+        latitude: pickedLocation.coords.latitude,
+        longitude: pickedLocation.coords.longitude,
+      });
+    }
+  }, [pickedLocation, onPickLocation]);
 
   async function verifyPermissions() {
     if (
@@ -81,7 +95,10 @@ export const LocationPicker = () => {
 
     const location = await getCurrentPositionAsync({});
 
-    navigation.navigate('Map', { selectedLocation: location.coords });
+    navigation.navigate('Map', {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    });
   }
 
   let LocationPreview = <Text>No location yet</Text>;
