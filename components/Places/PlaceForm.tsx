@@ -1,12 +1,23 @@
 import { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { Location } from '../../types/types';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { Location, Place } from '../../types/types';
 import { Colors } from '../../utils/colors';
 import { Button } from '../ui/Button';
 import { ImagePicker } from './ImagePicker';
 import { LocationPicker } from './LocationPicker';
 
-export const PlaceForm = () => {
+type PlaceFormProp = {
+  onCreatePlace: (placeData: Place) => void;
+};
+
+export const PlaceForm = ({ onCreatePlace }: PlaceFormProp) => {
   const [enteredTitle, setEnteredTitle] = useState('');
   const [pickedLocation, setPickedLocation] = useState<Location | null>(null);
   const [selectedImage, setSelectedImage] = useState('');
@@ -24,9 +35,24 @@ export const PlaceForm = () => {
   }, []);
 
   function savePlaceHandler() {
-    console.log(enteredTitle);
-    console.log(selectedImage);
-    console.log(pickedLocation);
+    if (pickedLocation && selectedImage && enteredTitle) {
+      const placeData: Place = {
+        title: enteredTitle,
+        address: pickedLocation.address,
+        imageUri: selectedImage,
+        location: {
+          latitude: pickedLocation.latitude,
+          longitude: pickedLocation.longitude,
+        },
+        id: new Date().toString() + selectedImage,
+      };
+      onCreatePlace(placeData);
+    } else {
+      Alert.alert(
+        'Input error',
+        'Please fill title, picture and choose a location'
+      );
+    }
   }
 
   return (

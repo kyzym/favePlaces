@@ -4,12 +4,12 @@ export interface Place {
   title: string;
   imageUri: string;
   address: string;
-  location: object;
+  location: LatLng;
   id: string;
 }
 
 export type RootStackParamList = {
-  AllPlaces: undefined;
+  AllPlaces: Place[];
   AddPlace: LatLng;
   Map: LatLng;
 };

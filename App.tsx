@@ -7,10 +7,38 @@ import { AllPlaces } from './screens/AllPlaces';
 import { Map } from './screens/Map';
 import { RootStackParamList } from './types/types';
 import { Colors } from './utils/colors';
+import { useCallback, useEffect, useState } from 'react';
+import { init } from './utils/db';
+import * as SplashScreen from 'expo-splash-screen';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const Stack = createNativeStackNavigator<RootStackParamList>();
+
+  const [dbInitialized, setDbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setDbInitialized(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (dbInitialized) {
+      await SplashScreen.hideAsync();
+    }
+
+    if (!dbInitialized) {
+      return null;
+    }
+  }, [dbInitialized]);
+  onLayoutRootView();
+
   return (
     <>
       <StatusBar style="auto" />
