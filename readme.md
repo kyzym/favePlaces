@@ -6,8 +6,6 @@ FavePlaces is a React Native application developed using Expo and TypeScript, fe
 <div style="display: flex; ">
   <img src="image.png" alt="Screenshot 1" width="200"/>
   <img src="image-1.png" alt="Screenshot 2" width="200"/>
-  <img src="image-2.png" alt="Screenshot 3" width="200"/>
-  <img src="image-3.png" alt="Screenshot 4" width="200"/>
 </div>
 
 
