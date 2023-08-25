@@ -1,16 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import { useCallback, useLayoutEffect, useState } from 'react';
 import IconButton from './components/ui/IconButton';
 import { AddPlace } from './screens/AddPlace';
 import { AllPlaces } from './screens/AllPlaces';
 import { Map } from './screens/Map';
+import { PlaceDetails } from './screens/PlaceDetails';
 import { RootStackParamList } from './types/types';
 import { Colors } from './utils/colors';
-import { useCallback, useEffect, useState } from 'react';
 import { init } from './utils/db';
-import * as SplashScreen from 'expo-splash-screen';
-import { PlaceDetails } from './screens/PlaceDetails';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,7 +19,7 @@ export default function App() {
 
   const [dbInitialized, setDbInitialized] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     init()
       .then(() => {
         setDbInitialized(true);

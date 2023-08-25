@@ -1,10 +1,10 @@
-import { View, Button, Alert, Image, Text, StyleSheet } from 'react-native';
 import {
-  launchCameraAsync,
-  useCameraPermissions,
   PermissionStatus,
+  launchCameraAsync,
+  useCameraPermissions
 } from 'expo-image-picker';
 import { useState } from 'react';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../utils/colors';
 import { OutlinedButton } from '../ui/OutlinedButton';
 
@@ -12,33 +12,36 @@ type ImagePickerProps = {
   onTakeImage: (imageUri: string) => void;
 };
 
+
 export const ImagePicker = ({ onTakeImage }: ImagePickerProps) => {
+  const [pickedImage, setPickedImage] = useState('');
+  
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
+   
 
-  const [pickedImage, setPickedImage] = useState('');
 
-  async function verifyPermissions() {
-    if (cameraPermissionInformation?.status === PermissionStatus.UNDETERMINED) {
-      const permissionResponse = await requestPermission();
+async function verifyPermissions() {
 
-      return permissionResponse.granted;
-    }
-
-    if (cameraPermissionInformation?.status === PermissionStatus.DENIED) {
+  if (cameraPermissionInformation?.status !== PermissionStatus.GRANTED) {
+    const permissionResponse = await requestPermission();
+    if (!permissionResponse.granted) {
       Alert.alert(
         'Insufficient Permissions!',
         'You need to grant camera permissions to use this app.'
       );
       return false;
     }
-
-    return true;
   }
+
+  return true;
+}
+
+
 
   async function takeImageHandler() {
     const hasPermission = await verifyPermissions();
-
+    
     if (!hasPermission) {
       return;
     }

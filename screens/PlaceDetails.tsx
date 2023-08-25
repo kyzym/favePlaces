@@ -13,12 +13,14 @@ type PlaceDetailsProps = {
 
 export const PlaceDetails = ({ route, navigation }: PlaceDetailsProps) => {
   const [fetchedPlace, setFetchedPlace] = useState<Place>();
-
+  
   async function showOnMapHandler() {
+
     if (fetchedPlace) {
       navigation.navigate('Map', {
         latitude: fetchedPlace.location.latitude,
         longitude: fetchedPlace.location.longitude,
+        canChange: false
       });
     }
   }
@@ -28,7 +30,9 @@ export const PlaceDetails = ({ route, navigation }: PlaceDetailsProps) => {
   useEffect(() => {
     async function loadPlaceData() {
       const place = await fetchPlaceDetails(selectedPlaceId);
+
       setFetchedPlace(place);
+
       navigation.setOptions({
         title: place.title,
       });

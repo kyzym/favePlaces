@@ -1,13 +1,13 @@
-const API = 'AIzaSyAu_2a7Gkb6yREdqGA2ODA4IxxMGyp9-5o';
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY && process.env.EXPO_PUBLIC_API_KEY 
 
 export const getLocationPreview = (lat: number, long: number) => {
-  const locationUri = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:D%7C${lat},${long}&key=${API}`;
+  const locationUri = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=14&size=400x200&maptype=roadmap&markers=color:red%7Clabel:D%7C${lat},${long}&key=${API_KEY}`;
 
   return locationUri;
 };
 
 export const getAddress = async (lat: number, long: number) => {
-  const addressUri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${API}`;
+  const addressUri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${API_KEY}`;
 
   const response = await fetch(addressUri);
 

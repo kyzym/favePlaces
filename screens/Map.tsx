@@ -17,9 +17,11 @@ type MapProps = {
 };
 
 export const Map = ({ navigation, route }: MapProps) => {
+
   const initialLocation = route.params && {
     latitude: route.params.latitude,
     longitude: route.params.longitude,
+    canChange: route.params.canChange
   };
 
   const [selectedLocation, setSelectedLocation] =
@@ -33,9 +35,11 @@ export const Map = ({ navigation, route }: MapProps) => {
   };
 
   function selectLocationHandler(event: MapPressEvent) {
-    if (initialLocation) {
-      return;
+
+    if (initialLocation.canChange === false) {
+      return
     }
+
     const latitude = event.nativeEvent.coordinate.latitude;
     const longitude = event.nativeEvent.coordinate.longitude;
 
@@ -58,9 +62,10 @@ export const Map = ({ navigation, route }: MapProps) => {
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {
-    if (initialLocation) {
-      return;
+    if (initialLocation.canChange === false) {
+      return
     }
+
     navigation.setOptions({
       headerRight: ({ tintColor = '#000' }) => (
         <IconButton

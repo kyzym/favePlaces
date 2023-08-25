@@ -8,10 +8,14 @@ export interface Place {
   id: string;
 }
 
+type AddPlaceParams = LatLng & {
+  canChange:boolean
+}
+
 export type RootStackParamList = {
   AllPlaces: Place[];
   AddPlace: LatLng;
-  Map: LatLng;
+  Map: AddPlaceParams;
   PlaceDetails: { placeId: string };
 };
 
