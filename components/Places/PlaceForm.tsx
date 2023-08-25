@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import {
   Alert,
   ScrollView,
@@ -33,6 +33,7 @@ export const PlaceForm = ({ onCreatePlace }: PlaceFormProp) => {
   const pickLocationHandler = useCallback((location: Location) => {
     setPickedLocation(location);
   }, []);
+
 
   function savePlaceHandler() {
     if (pickedLocation && selectedImage && enteredTitle) {

@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../../utils/colors';
 
 type OutlinedButtonProps = {
-  children: string;
+  children: React.ReactNode;
   icon: keyof typeof Ionicons.glyphMap;
   onPress: () => Promise<void>;
 };
@@ -39,5 +39,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   buttonPressed: { opacity: 0.7 },
-  text: { color: Colors.primary500, fontSize: 14, fontWeight: 'bold' },
+  text: {
+    color: Colors.primary500,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });

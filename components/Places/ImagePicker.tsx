@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../utils/colors';
 import { OutlinedButton } from '../ui/OutlinedButton';
+import { LoadingOverlay } from '../ui/LoadingOverlay';
 
 type ImagePickerProps = {
   onTakeImage: (imageUri: string) => void;
@@ -15,33 +16,35 @@ type ImagePickerProps = {
 
 export const ImagePicker = ({ onTakeImage }: ImagePickerProps) => {
   const [pickedImage, setPickedImage] = useState('');
-  
+  const [isRequestPermission, setIsRequestPermission] = useState(false)
+
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
-   
 
 
-async function verifyPermissions() {
 
-  if (cameraPermissionInformation?.status !== PermissionStatus.GRANTED) {
-    const permissionResponse = await requestPermission();
-    if (!permissionResponse.granted) {
-      Alert.alert(
-        'Insufficient Permissions!',
-        'You need to grant camera permissions to use this app.'
-      );
-      return false;
+  async function verifyPermissions() {
+
+    if (cameraPermissionInformation?.status !== PermissionStatus.GRANTED) {
+      setIsRequestPermission(true)
+      const permissionResponse = await requestPermission();
+      if (!permissionResponse.granted) {
+        Alert.alert(
+          'Insufficient Permissions!',
+          'You need to grant camera permissions to use this app.'
+        );
+        return false;
+      }
     }
+    setIsRequestPermission(false)
+    return true;
   }
-
-  return true;
-}
 
 
 
   async function takeImageHandler() {
     const hasPermission = await verifyPermissions();
-    
+
     if (!hasPermission) {
       return;
     }
@@ -63,9 +66,15 @@ async function verifyPermissions() {
 
   let imagePreview = <Text>No image yet</Text>;
 
+
   if (pickedImage) {
     imagePreview = <Image style={styles.image} source={{ uri: pickedImage }} />;
   }
+
+  if (isRequestPermission) {
+    imagePreview = <LoadingOverlay color={Colors.gray700} size={70} />;
+  }
+
 
   return (
     <View>
@@ -92,5 +101,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-  },
+  }, buttonText: {
+    fontSize: 16,
+    color: Colors.primary500
+  }
 });

@@ -22,6 +22,7 @@ import { Colors } from '../../utils/colors';
 import { getAddress, getLocationPreview } from '../../utils/location';
 import { OutlinedButton } from '../ui/OutlinedButton';
 import * as Linking from 'expo-linking';
+import { LoadingOverlay } from '../ui/LoadingOverlay';
 
 
 type LocationPickerProps = {
@@ -29,12 +30,14 @@ type LocationPickerProps = {
 };
 
 export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList, 'Map'>>();
-  const route = useRoute<RouteProp<RootStackParamList, 'Map'>>();
-
+  const [isRequestPermission, setIsRequestPermission] = useState(false)
+  const [isPositioning, setIsPositioning] = useState(false)
   const [pickedLocation, setPickedLocation] = useState<PickedLocation | null>(
     null
   );
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList, 'Map'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'Map'>>();
 
   const isFocused = useIsFocused();
 
@@ -73,49 +76,64 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   }, [pickedLocation, onPickLocation]);
 
   async function verifyPermissions() {
+
     if (
       locationPermissionInformation?.status !== PermissionStatus.GRANTED
     ) {
+      setIsRequestPermission(true)
+
       const permissionResponse = await requestPermission();
 
+      setIsRequestPermission(false);
+
       if (!permissionResponse.granted) {
-      Alert.alert(
-        'Insufficient Permissions!',
-        'You need to grant location permissions to use this feature. Please enable it in your device settings.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Open Settings',
-            onPress: () => Linking.openSettings(),
-          },
-        ]
-      );
-      return false;
-    }
+        Alert.alert(
+          'Insufficient Permissions!',
+          'You need to grant location permissions to use this feature. Please enable it in your device settings.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            {
+              text: 'Open Settings',
+              onPress: () => Linking.openSettings(),
+            },
+          ]
+        );
+        return false;
+      }
     }
 
-   return true;
+    setIsRequestPermission(false);
+    return true;
   }
 
   async function getLocationHandler() {
     const hasPermissions = await verifyPermissions();
-  
+
     if (!hasPermissions) {
       return;
     }
 
+    setIsPositioning(true)
+
     const pickedLocation = await getCurrentPositionAsync({});
+
+    setIsPositioning(false)
 
     setPickedLocation(pickedLocation);
   }
 
   async function pickOnMapHandler() {
     const hasPermissions = await verifyPermissions();
+
     if (!hasPermissions) {
       return;
     }
 
+    setIsPositioning(true)
+
     const location = await getCurrentPositionAsync({});
+
+    setIsPositioning(false)
 
     navigation.navigate('Map', {
       latitude: location.coords.latitude,
@@ -125,6 +143,11 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   }
 
   let LocationPreview = <Text>No location yet</Text>;
+
+  if (isRequestPermission || isPositioning) {
+    console.log(isRequestPermission, isPositioning);
+    LocationPreview = (<LoadingOverlay size={70} color={Colors.gray700} />)
+  }
 
   if (pickedLocation) {
     LocationPreview = (

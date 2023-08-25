@@ -54,7 +54,7 @@ export default function App() {
             name="AllPlaces"
             component={AllPlaces}
             options={({ navigation }) => ({
-              title: 'Your Favorite Places',
+              title: 'Favorite Places',
               headerRight: ({ tintColor }) => (
                 <IconButton
                   color={tintColor || '#000'}
