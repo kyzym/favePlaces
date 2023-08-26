@@ -14,7 +14,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kyzym.favePlaces"
     },
     "android": {
       "adaptiveIcon": {
@@ -46,7 +47,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "857a4e54-61a0-4f7f-aaff-a3247aff8983"
+        "projectId": "4c81ae67-f66b-4290-a1df-398aff303f7c"
       }
     },
     "runtimeVersion": {
