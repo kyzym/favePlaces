@@ -20,14 +20,18 @@ export default function App() {
   const [dbInitialized, setDbInitialized] = useState(false);
 
   useLayoutEffect(() => {
-    init()
-      .then(() => {
-        setDbInitialized(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const initializeDB = async () => {
+      try {
+        await init();
+        console.log("Database initialized");
+        // setDbInitialized(true);
+      } catch (error) {
+        console.log("Database Initialization Failed: ", error);
+      }
+    };
+    initializeDB();
   }, []);
+
 
   const onLayoutRootView = useCallback(async () => {
     if (dbInitialized) {

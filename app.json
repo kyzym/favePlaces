@@ -17,15 +17,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.kyzym.favePlaces"
     },
-    "android": {
-      "adaptiveIcon": {
+    "android": { 
         "versionCode": 1,
-        "foregroundImage": "assets/splash.png",
-        "backgroundColor": "#a0defb",
-        "permissions": [
-          "CAMERA"
-        ]
-      },
+        "adaptiveIcon": {
+        "foregroundImage": "assets/adaptive-icon.png",
+        "backgroundColor": "#a0defb"
+    },   
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
