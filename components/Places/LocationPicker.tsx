@@ -145,7 +145,7 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   let LocationPreview = <Text>No location yet</Text>;
 
   if (isRequestPermission || isPositioning) {
-    console.log(isRequestPermission, isPositioning);
+
     LocationPreview = (<LoadingOverlay size={70} color={Colors.gray700} />)
   }
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "favePlaces",
+    "name": "Fave Places",
     "slug": "favePlaces",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,16 +10,25 @@
       "backgroundColor": "#a0defb",
       "resizeMode": "contain"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
+        "versionCode": 1,
         "foregroundImage": "assets/splash.png",
         "backgroundColor": "#a0defb",
-        "permissions": ["CAMERA"]
-      }
+        "permissions": [
+          "CAMERA"
+        ]
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.kyzym.favePlaces"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,6 +43,17 @@
           "cameraPermission": "The app needs access to your camera in order to rake picture of your favorite places."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "857a4e54-61a0-4f7f-aaff-a3247aff8983"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/857a4e54-61a0-4f7f-aaff-a3247aff8983"
+    }
   }
 }

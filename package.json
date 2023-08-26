@@ -20,9 +20,11 @@
     "expo-status-bar": "~1.6.0",
     "nanoid": "^4.0.2",
     "react": "18.2.0",
-    "react-native": "0.72.3",
+    "react-native": "0.72.4",
     "react-native-maps": "1.7.1",
-    "expo-linking": "~5.0.2"
+    "expo-linking": "~5.0.2",
+    "@types/react": "~18.2.14",
+    "expo-updates": "~0.18.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
