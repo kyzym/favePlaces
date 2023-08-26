@@ -61,15 +61,20 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
         const latitude = pickedLocation.coords.latitude;
         const longitude = pickedLocation.coords.longitude;
 
-        const address = await getAddress(latitude, longitude);
+        try {
+          const address = await getAddress(latitude, longitude);
 
-        const location: Location = {
-          latitude,
-          longitude,
-          address,
-        };
+          const location: Location = {
+            latitude,
+            longitude,
+            address,
+          };
 
-        onPickLocation(location);
+          onPickLocation(location);
+        } catch (error) {
+          console.log(error);
+        }
+
       }
     }
     handleLocation();
@@ -107,39 +112,54 @@ export const LocationPicker = ({ onPickLocation }: LocationPickerProps) => {
   }
 
   async function getLocationHandler() {
-    const hasPermissions = await verifyPermissions();
+    try {
 
-    if (!hasPermissions) {
-      return;
+      const hasPermissions = await verifyPermissions();
+
+      if (!hasPermissions) {
+        return;
+      }
+
+      setIsPositioning(true)
+
+      const pickedLocation = await getCurrentPositionAsync({});
+
+      setIsPositioning(false)
+
+      setPickedLocation(pickedLocation);
+
+    } catch (error) {
+      console.log(error);
     }
 
-    setIsPositioning(true)
-
-    const pickedLocation = await getCurrentPositionAsync({});
-
-    setIsPositioning(false)
-
-    setPickedLocation(pickedLocation);
   }
 
   async function pickOnMapHandler() {
-    const hasPermissions = await verifyPermissions();
 
-    if (!hasPermissions) {
-      return;
+    try {
+
+      const hasPermissions = await verifyPermissions();
+
+      if (!hasPermissions) {
+        return;
+      }
+
+      setIsPositioning(true)
+
+      const location = await getCurrentPositionAsync({});
+
+      setIsPositioning(false)
+
+      navigation.navigate('Map', {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        canChange: true
+      });
+
+    } catch (error) {
+      console.log(error);
     }
 
-    setIsPositioning(true)
-
-    const location = await getCurrentPositionAsync({});
-
-    setIsPositioning(false)
-
-    navigation.navigate('Map', {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      canChange: true
-    });
   }
 
   let LocationPreview = <Text>No location yet</Text>;

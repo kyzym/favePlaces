@@ -4,7 +4,7 @@ import MapView, {
   LatLng,
   MapPressEvent,
   Marker,
-  Region,
+  Region, PROVIDER_GOOGLE
 } from 'react-native-maps';
 import IconButton from '../components/ui/IconButton';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -79,7 +79,7 @@ export const Map = ({ navigation, route }: MapProps) => {
   }, [navigation, savePickerLocationHandler, initialLocation]);
 
   return (
-    <MapView style={styles.map} region={region} onPress={selectLocationHandler}>
+    <MapView provider={PROVIDER_GOOGLE} style={styles.map} region={region} onPress={selectLocationHandler}>
       {selectedLocation && (
         <Marker
           title="Picked Location"

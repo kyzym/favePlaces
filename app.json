@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "splash": {
+        "splash": {
       "image": "assets/splash.png",
       "backgroundColor": "#a0defb",
       "resizeMode": "contain"
@@ -17,16 +17,21 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.kyzym.favePlaces"
     },
-    "android": { 
-        "versionCode": 1,
-        "adaptiveIcon": {
+    "android": {
+      "versionCode": 1,
+      "adaptiveIcon": {
         "foregroundImage": "assets/adaptive-icon.png",
         "backgroundColor": "#a0defb"
-    },   
+      },
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.kyzym.favePlaces"
+      "package": "com.kyzym.favePlaces",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDX24NKqgSA-1oaRubcab9DL9gRqQ1Lvc0"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -43,15 +48,15 @@
       ]
     ],
     "extra": {
-      "eas": {
-        "projectId": "4c81ae67-f66b-4290-a1df-398aff303f7c"
-      }
+         "eas": {
+              "projectId": "4c81ae67-f66b-4290-a1df-398aff303f7c"
+          }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/857a4e54-61a0-4f7f-aaff-a3247aff8983"
+      "url": "https://u.expo.dev/4c81ae67-f66b-4290-a1df-398aff303f7c"
     }
   }
 }

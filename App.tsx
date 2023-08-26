@@ -24,7 +24,7 @@ export default function App() {
       try {
         await init();
         console.log("Database initialized");
-        // setDbInitialized(true);
+        setDbInitialized(true);
       } catch (error) {
         console.log("Database Initialization Failed: ", error);
       }
